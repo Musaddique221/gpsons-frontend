@@ -63,7 +63,7 @@ const SingleProduct = () => {
   };
   useEffect(() => {
     getSingleProduct();
-  }, []);
+  }, [data]);
 
   return (
     <>
