@@ -6,6 +6,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Loader from "@/components/Loader";
 
+import { Box, Heading, Grid, Text, Image, Button } from "@chakra-ui/react";
+
 const SingleProduct = () => {
   const [msg, setMessage] = useState("");
   const [error, setError] = useState<boolean>(false);
@@ -21,7 +23,7 @@ const SingleProduct = () => {
   const getSingleProduct = async () => {
     try {
       const { data } = await axios.get<any>(
-        `https://gpson-back-end.onrender.com/${id}`
+        `https://gpson-back-end.onrender.com/product/${id}`
       );
       setShow(false);
       setData(data);
@@ -66,42 +68,46 @@ const SingleProduct = () => {
   return (
     <>
       <a href="/">
-        <button className="color-grey bg-gray-200 border-radius-1 p-2 m-5">
+        <Button bgColor="grey.600" m="4">
           Go Back
-        </button>
+        </Button>
       </a>
+
       {show ? (
         <Loader />
       ) : (
-        <div className="container mx-auto py-8 grid grid-cols-2 md:grid-cols-2 gap-2">
-          <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-            <img
-              className="w-full object-cover"
-              src={data.image}
-              alt="Product Image"
-            />
-          </div>
-          <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
-            <div className="p-4">
-              <div className="uppercase text-sm text-teal-500 font-semibold mb-5">
-                {data.category}
-              </div>
-              <h2 className="text-gray-900 text-2xl font-bold">{data.name}</h2>
-              <p className="mt-2 text-gray-600">{data.description}</p>
-              <div className="mt-4">
-                <span className="text-gray-700 font-bold">{data.price}</span>
-              </div>
-              <div className="mt-4">
-                <button
-                  className="bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-600"
-                  onClick={submitHandler}
-                >
+        <>
+          <Box p={8}>
+            <Grid templateColumns="repeat(2, 1fr)" gap={8}>
+              <Box>
+                <Image
+                  src={data.image}
+                  alt="Product Image"
+                  h="440"
+                  w="full"
+                  objectFit="contain"
+                />
+              </Box>
+              <Box>
+                <Heading as="h1" size="md" mb={4}>
+                  {data.brand}
+                </Heading>
+                <Heading as="h1" size="xl" mb={4}>
+                  {data.name}
+                </Heading>
+                <Text fontSize="lg" color="gray.700" mb={4}>
+                  {data.description}
+                </Text>
+                <Text fontSize="xl" fontWeight="bold" mb={4}>
+                  {data.price}
+                </Text>
+                <Button colorScheme="teal" size="lg" onClick={submitHandler}>
                   Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+                </Button>
+              </Box>
+            </Grid>
+          </Box>
+        </>
       )}
     </>
   );

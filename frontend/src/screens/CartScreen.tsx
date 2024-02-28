@@ -3,7 +3,9 @@ import React from "react";
 import { useState, useEffect, MouseEvent } from "react";
 import Loader from "@/components/Loader";
 import { usePathname } from "next/navigation";
-import Image from 'next/image';
+// import Image from "next/image";
+
+import { Box, Grid, Image, Heading, Text, Button } from "@chakra-ui/react";
 
 import axios from "axios";
 const CartScreen: React.FC = () => {
@@ -62,14 +64,16 @@ const CartScreen: React.FC = () => {
     <>
       <div className="container w-full mx-auto pt-20">
         <div className="w-full mb-8">
-          <h1 className="text-3xl text-center font-bold">Your Shopping Cart</h1>
+          <Heading as="h3" m="2">
+            Your Shopping Cart
+          </Heading>
         </div>
         {orders.map((product: any) => {
           return (
             <>
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <div className="flex items-center mb-5 pl-10">
-                  <Image
+                  <img
                     className="h-16 w-16 object-cover rounded"
                     src={product.image}
                     alt="Item Image"
@@ -92,7 +96,35 @@ const CartScreen: React.FC = () => {
                     Delete
                   </button>
                 </div>
-              </div>
+              </div> */}
+              <Box p={8}>
+                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                  <Box>
+                    <Image src={product.image} alt="image" h="150px" />
+                  </Box>
+                  <Box>
+                    <Heading as="h1" size="lg">
+                      {product.name}
+                    </Heading>
+                    <Text fontSize="md" color="gray.600" mt={2}>
+                      {product.brand}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontSize="lg" fontWeight="bold">
+                      {product.price}
+                    </Text>
+                    <Button
+                      colorScheme="red"
+                      size="sm"
+                      mt={2}
+                      onClick={() => deleteHandler(product._id)}
+                    >
+                      Remove
+                    </Button>
+                  </Box>
+                </Grid>
+              </Box>
             </>
           );
         })}
